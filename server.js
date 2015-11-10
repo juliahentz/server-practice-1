@@ -3,10 +3,14 @@ var app = express();
 var mongoose = require('mongoose');
 var database = require('./database');
 var router = require('./router');
+var bodyParser = require('body-parser');
 
 
 function start(){
 	
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded());
+
 	database.openDatabase(function(){
 
 		setupModels();
