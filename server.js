@@ -1,19 +1,36 @@
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
+var database = require('./database');
+var router = require('./router');
 
 
 function start(){
 	
-	app.use('/', express.static('public'));
+	database.openDatabase(function(){
 
-	app.use('/api/cms', express.static('cms'));
+		setupModels();
+		console.log('Database open successfully');
 
-	app.listen(3000, function(){
 
-		console.log('server is running')
+		app.use('/', express.static('public'));
+
+		app.use('/cms', express.static('cms'));
+
+		app.listen(3000, function(){
+
+			router(app);
+
+		});	
 
 	});
+
+
+};
+
+function setupModels(){
+
+	require('./models/projects');
 
 };
 
